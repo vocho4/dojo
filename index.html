@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dojo do Japonska</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Nunito+Sans:wght@400;600;700&family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+/* Layout: jeden sloupec jako mobilní aplikace, velké dotykové plochy, kana jako hlavní grafický prvek. */
+:root{
+  --bg:#eef0f6; --surface:#ffffff; --ink:#141a35; --muted:#5b6385; --line:#d5d9e8;
+  --soft:#e3e7f6; --accent:#2a3fa8; --on-accent:#ffffff; --gold:#e9a800;
+  --good:#1b7f55; --good-bg:#dff3e9; --bad:#b5301f; --bad-bg:#fbe4e0;
+  --f-display:"Bricolage Grotesque","Nunito Sans",system-ui,sans-serif;
+  --f-body:"Nunito Sans","Zen Maru Gothic",system-ui,sans-serif;
+  --f-kana:"Dela Gothic One","Zen Maru Gothic",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1230; --surface:#171d45; --ink:#eef0ff; --muted:#9aa3d0; --line:#2a3166;
+  --soft:#1f2655; --accent:#f2b705; --on-accent:#141a35; --gold:#f2b705;
+  --good:#4fd39a; --good-bg:#12382d; --bad:#ff8a7d; --bad-bg:#43211f; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0e1230; --surface:#171d45; --ink:#eef0ff; --muted:#9aa3d0; --line:#2a3166;
+  --soft:#1f2655; --accent:#f2b705; --on-accent:#141a35; --gold:#f2b705;
+  --good:#4fd39a; --good-bg:#12382d; --bad:#ff8a7d; --bad-bg:#43211f; color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 48px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:2rem;font-weight:800} h2{font-size:1.25rem;font-weight:800} h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--f-display);font-weight:800;display:flex;align-items:center;gap:10px}
+.brand .mark{font-family:var(--f-kana);font-size:1.5rem;color:var(--accent)}
+.chip{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 6px 4px 4px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:700;font-family:var(--f-display)}
+.link{background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 8px}
+.tabs{display:flex;gap:4px;background:var(--soft);border-radius:12px;padding:4px}
+.tabs button{flex:1;border:0;background:none;padding:10px 6px;border-radius:9px;font-weight:700;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.stat b{display:block;font-family:var(--f-display);font-size:1.6rem;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:.85rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.today{background:var(--accent);color:var(--on-accent);border:0}
+.today .eyebrow{color:inherit;opacity:.8}
+.today .btn{background:var(--on-accent);color:var(--accent)}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.btn{border:0;border-radius:12px;padding:14px 18px;font-weight:700;background:var(--soft);min-height:48px}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-width:0}
+.item[disabled]{opacity:.55;cursor:default}
+.badge{font-family:var(--f-kana);font-size:1.3rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--accent);flex:none}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;overflow-wrap:anywhere}
+.item .t span{color:var(--muted);font-size:.85rem}
+.pill{font-size:.8rem;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--soft);color:var(--muted);white-space:nowrap}
+.pill.good{background:var(--good-bg);color:var(--good)}
+.hook{background:var(--soft);border-radius:12px;padding:14px 16px;font-weight:600}
+.vocab{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.v{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.v .t{font-family:var(--f-kana);font-size:1.8rem;line-height:1.2;overflow-wrap:anywhere}
+.v .t.latin{font-family:var(--f-display);font-weight:800;font-size:1.15rem}
+.v .r{font-weight:700;color:var(--accent)}
+.v .c{color:var(--muted);font-size:.9rem}
+.bar{height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.big{font-family:var(--f-kana);font-size:clamp(3rem,18vw,5.5rem);line-height:1.1;text-align:center;overflow-wrap:anywhere}
+.q{font-family:var(--f-display);font-size:1.35rem;font-weight:600;text-wrap:balance}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:420px){.opts{grid-template-columns:1fr}}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;font-weight:700;text-align:left;min-height:56px;overflow-wrap:anywhere}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}
+.opt.good{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+.opt.bad{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+input[type=text]{font:inherit;width:100%;padding:14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.match .col{display:flex;flex-direction:column;gap:8px;min-width:0}
+.fb{border-radius:12px;padding:12px 14px}
+.fb.good{background:var(--good-bg);color:var(--good)}
+.fb.bad{background:var(--bad-bg);color:var(--bad)}
+.score{font-family:var(--f-display);font-weight:800;font-size:4rem;text-align:center;font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.scroll{overflow-x:auto}
+.note{color:var(--muted);font-size:.9rem}
+.kids{display:grid;gap:12px}
+.kidbtn{display:flex;align-items:center;gap:16px;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:18px;text-align:left}
+.kidbtn .avatar{width:56px;height:56px;font-size:1.6rem}
+.kidbtn b{font-family:var(--f-display);font-size:1.5rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app" class="wrap"></div>
+<script src="config.js"></script>
+<script>
+'use strict';
+const CFG = window.DOJO_CONFIG || {};
+const KIDS = ['Matěj','Jáchym','Nikola'];
+const LS = {
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const state = {kid:LS.get('dojo.kid',null), lessons:[], remote:[], loaded:false, sync:'local', tab:'today', error:null};
+const app = document.getElementById('app');
+
+function h(tag, props, ...kids){
+  const e = document.createElement(tag);
+  for (const [k,v] of Object.entries(props||{})){
+    if (k==='class') e.className = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (v===true) e.setAttribute(k,'');
+    else if (v!==false && v!=null) e.setAttribute(k,v);
+  }
+  for (const c of kids.flat()){ if (c==null||c===false) continue; e.append(c.nodeType?c:document.createTextNode(String(c))); }
+  return e;
+}
+function mount(...nodes){ app.replaceChildren(...nodes.flat().filter(Boolean)); window.scrollTo(0,0); }
+const shuffle = a => { const r=a.slice(); for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];} return r; };
+const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[.,!?'’"]/g,'').replace(/\s+/g,' ').trim();
+const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today = () => ymd(new Date());
+const fmtDate = ts => new Date(ts).toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
+function say(text, lang){
+  try{ if(!('speechSynthesis' in window)) return; const u=new SpeechSynthesisUtterance(text); u.lang=lang||'en-US'; u.rate=.85; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
+}
+
+/* ---------- úložiště výsledků ---------- */
+const remote = {
+  on:()=>!!(CFG.supabaseUrl && CFG.supabaseKey),
+  hd(){return {apikey:CFG.supabaseKey, Authorization:'Bearer '+CFG.supabaseKey, 'Content-Type':'application/json'};},
+  async list(){
+    const r = await fetch(CFG.supabaseUrl+'/rest/v1/attempts?select=kid,lesson_id,score,total,ts&order=ts.desc&limit=5000',{headers:this.hd()});
+    if(!r.ok) throw new Error(r.status); return r.json();
+  },
+  async add(rows){
+    const r = await fetch(CFG.supabaseUrl+'/rest/v1/attempts',{method:'POST',headers:{...this.hd(),Prefer:'return=minimal'},body:JSON.stringify(rows)});
+    if(!r.ok) throw new Error(r.status);
+  }
+};
+const pending = () => LS.get('dojo.pending',[]);
+const attempts = () => [...state.remote, ...pending()];
+
+function perKid(kid){
+  const mine = attempts().filter(a=>a.kid===kid);
+  const best = {};
+  for (const a of mine){ const p=a.total?a.score/a.total:0; const b=best[a.lesson_id]; if(!b||p>b.p) best[a.lesson_id]={p,score:a.score,total:a.total}; }
+  let xp = 0;
+  for (const l of state.lessons){ const b=best[l.id]; if(b) xp += Math.round((l.xp||30)*b.p); }
+  const days = new Set(mine.map(a=>ymd(new Date(a.ts))));
+  let streak = 0; const d = new Date();
+  if(!days.has(ymd(d))) d.setDate(d.getDate()-1);
+  while(days.has(ymd(d))){ streak++; d.setDate(d.getDate()-1); }
+  const last = mine.reduce((m,a)=>a.ts>m?a.ts:m,'');
+  return {mine,best,xp,streak,done:Object.keys(best).length,last};
+}
+
+/* ---------- načtení ---------- */
+async function load(){
+  render();
+  try{
+    const idx = await (await fetch('lessons/index.json?v='+Date.now())).json();
+    const ls = await Promise.all(idx.map(f=>fetch('lessons/'+f+'?v='+Date.now()).then(r=>r.json())));
+    state.lessons = ls.sort((a,b)=>a.day-b.day);
+  }catch(e){ state.error='lessons'; }
+  if (remote.on()){
+    try{
+      const p = pending();
+      if(p.length){ await remote.add(p); LS.set('dojo.pending',[]); }
+      state.remote = await remote.list(); state.sync='ok';
+    }catch(e){ state.sync='err'; }
+  }
+  state.loaded = true; render();
+}
+
+/* ---------- obrazovky ---------- */
+function render(){
+  if(!state.kid) return pickKid();
+  home();
+}
+function pickKid(){
+  mount(
+    h('div',{class:'brand'},h('span',{class:'mark'},'道場'),'Dojo do Japonska'),
+    h('h1',{},'Kdo dnes cvičí?'),
+    h('div',{class:'kids'}, KIDS.map(k=>h('button',{class:'kidbtn',onclick:()=>{state.kid=k;LS.set('dojo.kid',k);render();}},
+      h('span',{class:'avatar'},k[0]), h('b',{},k))))
+  );
+}
+function topbar(){
+  return h('div',{class:'top'},
+    h('div',{class:'brand'},h('span',{class:'mark'},'道場'),'Dojo'),
+    h('div',{class:'chip'},h('span',{class:'avatar'},state.kid[0]),h('b',{},state.kid),
+      h('button',{class:'link',onclick:()=>{state.kid=null;LS.set('dojo.kid',null);render();}},'změnit')));
+}
+function home(){
+  const s = perKid(state.kid);
+  const nodes = [topbar()];
+  nodes.push(h('div',{class:'tabs',role:'tablist'}, [['today','Dnes'],['lessons','Lekce'],['history','Historie']].map(([k,t])=>
+    h('button',{role:'tab','aria-selected':String(state.tab===k),onclick:()=>{state.tab=k;render();}},t))));
+  nodes.push(h('div',{class:'stats'},
+    h('div',{class:'stat'},h('b',{},s.streak),h('span',{},'dní v řadě')),
+    h('div',{class:'stat'},h('b',{},s.xp),h('span',{},'bodů XP')),
+    h('div',{class:'stat'},h('b',{},s.done+'/'+state.lessons.length),h('span',{},'lekcí hotovo'))));
+  if(!state.loaded) nodes.push(h('p',{class:'note'},'Načítám lekce…'));
+  else if(state.error) nodes.push(h('div',{class:'card'},h('h2',{},'Lekce se nenačetly'),h('p',{},'Zkus stránku obnovit. Když to nepomůže, napiš tátovi.')));
+  else if(!state.lessons.length) nodes.push(h('div',{class:'card'},h('h2',{},'Zatím tu nejsou žádné lekce'),h('p',{},'První se objeví, jakmile je táta nahraje.')));
+  else if(state.tab==='today') nodes.push(...todayView(s));
+  else if(state.tab==='lessons') nodes.push(lessonList(s));
+  else nodes.push(...historyView(s));
+  if(state.sync==='err') nodes.push(h('p',{class:'note'},'Výsledky se zatím neposlaly na server. Jsou uložené v tomto zařízení a odešlou se příště.'));
+  if(!remote.on()) nodes.push(h('p',{class:'note'},'Výsledky se ukládají jen v tomto zařízení.'));
+  mount(nodes);
+}
+function unlocked(l){ return l.date<=today(); }
+function todayView(s){
+  const open = state.lessons.filter(unlocked);
+  const cur = open.length ? open[open.length-1] : null;
+  const out = [];
+  if(!cur){ out.push(h('div',{class:'card'},h('h2',{},'Ještě nezačínáme'),h('p',{},'První lekce se odemkne '+state.lessons[0].date+'.'))); return out; }
+  const b = s.best[cur.id];
+  out.push(h('div',{class:'card today'},
+    h('span',{class:'eyebrow'},(cur.lang==='ja'?'Japonština':'Angličtina')+' · lekce '+cur.day),
+    h('h1',{},cur.title),
+    h('p',{},cur.hook||''),
+    h('div',{class:'row'},
+      h('button',{class:'btn',onclick:()=>startLesson(cur)},b?'Zopakovat':'Začít lekci'),
+      b?h('span',{},'Nejlepší výsledek: '+b.score+'/'+b.total):null)));
+  const missed = open.slice(0,-1).filter(l=>!s.best[l.id]);
+  if(missed.length) out.push(h('div',{class:'card'},h('h2',{},'Nestihnuté lekce'),
+    h('div',{class:'list'},missed.map(l=>lessonItem(l,s)))));
+  return out;
+}
+function lessonItem(l,s){
+  const ok = unlocked(l); const b = s.best[l.id];
+  return h('button',{class:'item',disabled:!ok,onclick:()=>ok&&startLesson(l)},
+    h('span',{class:'badge'},l.lang==='ja'?'あ':'Aa'),
+    h('span',{class:'t'},h('b',{},l.title),h('span',{},ok?(l.lang==='ja'?'Japonština':'Angličtina')+' · den '+l.day:'Odemkne se '+l.date)),
+    b?h('span',{class:'pill good'},b.score+'/'+b.total):h('span',{class:'pill'},ok?'nová':'zamčeno'));
+}
+function lessonList(s){ return h('div',{class:'list'},state.lessons.map(l=>lessonItem(l,s))); }
+function historyView(s){
+  const title = id => (state.lessons.find(l=>l.id===id)||{title:id}).title;
+  const rows = s.mine.slice().sort((a,b)=>a.ts<b.ts?1:-1).slice(0,30);
+  const mine = h('div',{class:'card'},h('h2',{},'Moje pokusy'),
+    rows.length?h('div',{class:'scroll'},h('table',{},h('thead',{},h('tr',{},h('th',{},'Kdy'),h('th',{},'Lekce'),h('th',{},'Body'))),
+      h('tbody',{},rows.map(a=>h('tr',{},h('td',{},fmtDate(a.ts)),h('td',{},title(a.lesson_id)),h('td',{},a.score+'/'+a.total)))))):h('p',{class:'note'},'Zatím žádný pokus.'));
+  const fam = h('div',{class:'card'},h('h2',{},'Přehled všech'),h('div',{class:'scroll'},h('table',{},
+    h('thead',{},h('tr',{},h('th',{},'Kdo'),h('th',{},'Hotovo'),h('th',{},'XP'),h('th',{},'Série'))),
+    h('tbody',{},KIDS.map(k=>{const p=perKid(k);return h('tr',{},h('td',{},k),h('td',{},p.done+'/'+state.lessons.length),h('td',{},p.xp),h('td',{},p.streak));})))));
+  return [mine,fam];
+}
+
+/* ---------- lekce ---------- */
+let run = null;
+function startLesson(l){ run={l,i:-1,correct:0}; intro(); }
+function intro(){
+  const l = run.l;
+  mount(
+    h('div',{class:'top'},h('button',{class:'link',onclick:render},'← Zpět')),
+    h('span',{class:'eyebrow'},(l.lang==='ja'?'Japonština':'Angličtina')+' · lekce '+l.day),
+    h('h1',{},l.title),
+    l.hook?h('p',{class:'hook'},l.hook):null,
+    ...String(l.intro||'').split('\n\n').map(p=>h('p',{},p)),
+    (l.vocab&&l.vocab.length)?h('div',{class:'vocab'},l.vocab.map(v=>h('button',{class:'v',onclick:()=>say(v.s||v.t,v.lang)},
+      h('span',{class:'t'+(l.lang==='ja'?'':' latin')},v.t),v.r?h('span',{class:'r'},v.r):null,h('span',{class:'c'},v.c)))):null,
+    (l.vocab&&l.vocab.length)?h('p',{class:'note'},'Klepnutím na kartu si poslechneš výslovnost (pokud ji zařízení umí).'):null,
+    h('button',{class:'btn primary',onclick:()=>{run.i=0;exercise();}},'Začít cvičení')
+  );
+}
+function exercise(){
+  const l=run.l, ex=l.exercises[run.i], n=l.exercises.length;
+  const fb = h('div',{class:'fb',hidden:true});
+  const next = h('button',{class:'btn primary',hidden:true,onclick:()=>{run.i++; run.i>=n?finish():exercise();}},run.i===n-1?'Dokončit':'Pokračovat');
+  const check = h('button',{class:'btn primary',disabled:true},'Zkontrolovat');
+  const done = (ok,msg)=>{
+    run.correct += ok?1:0; fb.className='fb '+(ok?'good':'bad'); fb.hidden=false;
+    fb.replaceChildren(h('strong',{},ok?'Správně. ':'Špatně. '),msg||''); next.hidden=false; check.hidden=true; next.focus();
+  };
+  let body;
+  if(ex.t==='choice') body=choiceUI(ex,check,done);
+  else if(ex.t==='type') body=typeUI(ex,check,done);
+  else body=matchUI(ex,check,done);
+  mount(
+    h('div',{class:'top'},h('button',{class:'link',onclick:render},'Ukončit'),h('span',{class:'note'},(run.i+1)+' / '+n)),
+    h('div',{class:'bar'},h('i',{style:'width:'+Math.round(run.i/n*100)+'%'})),
+    ex.big?h('div',{class:'big'},ex.big):null,
+    h('p',{class:'q'},ex.q),
+    body, fb, check, next
+  );
+}
+function choiceUI(ex,check,done){
+  const opts = shuffle(ex.o.map((t,i)=>({t,i})));
+  let sel = null; const btns = [];
+  const box = h('div',{class:'opts'}, opts.map(o=>{
+    const b = h('button',{class:'opt','aria-pressed':'false',onclick:()=>{ if(check.hidden) return; sel=o; btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); check.disabled=false; }},o.t);
+    btns.push(b); return b;
+  }));
+  check.onclick = ()=>{
+    const ok = sel.i===ex.a; check.hidden=true;
+    btns.forEach((b,idx)=>{ b.disabled=true; if(opts[idx].i===ex.a) b.classList.add('good'); else if(opts[idx]===sel) b.classList.add('bad'); });
+    done(ok, ok?(ex.e||''):('Správně: '+ex.o[ex.a]+'. '+(ex.e||'')));
+  };
+  return box;
+}
+function typeUI(ex,check,done){
+  const inp = h('input',{type:'text',id:'ans','aria-label':'Odpověď',autocomplete:'off',autocapitalize:'none',spellcheck:'false'});
+  inp.addEventListener('input',()=>{check.disabled=!inp.value.trim();});
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!check.disabled&&!check.hidden) check.click(); });
+  check.onclick = ()=>{
+    const ok = ex.a.some(a=>norm(a)===norm(inp.value)); inp.disabled=true;
+    done(ok, ok?(ex.e||''):('Správně: '+ex.a[0]+'. '+(ex.e||'')));
+  };
+  setTimeout(()=>inp.focus(),50);
+  return inp;
+}
+function matchUI(ex,check,done){
+  check.hidden = true;
+  const L = shuffle(ex.p.map((p,i)=>({t:p[0],i}))), R = shuffle(ex.p.map((p,i)=>({t:p[1],i})));
+  let sl=null, sr=null, ok=new Set(), mistakes=0;
+  const bl=[], br=[];
+  const refresh=()=>{
+    bl.forEach((b,k)=>{ b.setAttribute('aria-pressed',String(sl===L[k])); b.disabled=ok.has(L[k].i); if(ok.has(L[k].i)) b.classList.add('good'); });
+    br.forEach((b,k)=>{ b.setAttribute('aria-pressed',String(sr===R[k])); b.disabled=ok.has(R[k].i); if(ok.has(R[k].i)) b.classList.add('good'); });
+  };
+  const test=()=>{
+    if(!sl||!sr) return;
+    if(sl.i===sr.i){ ok.add(sl.i); sl=sr=null; refresh();
+      if(ok.size===ex.p.length) done(mistakes===0, mistakes===0?'Bez chyby.':'Chyb: '+mistakes+'.'+(ex.e?' '+ex.e:'')); }
+    else { mistakes++; const a=sl,b=sr; sl=sr=null; refresh();
+      const ia=L.indexOf(a), ib=R.indexOf(b); bl[ia].classList.add('bad'); br[ib].classList.add('bad');
+      setTimeout(()=>{bl[ia].classList.remove('bad');br[ib].classList.remove('bad');},450); }
+  };
+  const col=(arr,btns,set)=>h('div',{class:'col'},arr.map((o,k)=>{ const b=h('button',{class:'opt','aria-pressed':'false',onclick:()=>{set(o);refresh();test();}},o.t); btns.push(b); return b; }));
+  return h('div',{class:'match'},col(L,bl,o=>{sl=o;}),col(R,br,o=>{sr=o;}));
+}
+async function finish(){
+  const l=run.l, total=l.exercises.length, correct=run.correct;
+  const row = {kid:state.kid, lesson_id:l.id, score:correct, total, ts:new Date().toISOString()};
+  let where='device';
+  if(remote.on()){
+    try{ await remote.add([row]); state.remote.unshift(row); where='server'; }
+    catch(e){ LS.set('dojo.pending',[...pending(),row]); }
+  } else { LS.set('dojo.pending',[...pending(),row]); }
+  const pct = total?correct/total:0, xp = Math.round((l.xp||30)*pct);
+  mount(
+    h('span',{class:'eyebrow'},'Hotovo'),
+    h('div',{class:'score'},correct+' / '+total),
+    h('p',{class:'q',style:'text-align:center'},pct===1?'Bez jediné chyby.':pct>=.7?'Dobrá práce.':'Zkus to ještě jednou, půjde to líp.'),
+    h('p',{style:'text-align:center'},'+'+xp+' XP'),
+    h('p',{class:'note',style:'text-align:center'},where==='server'?'Výsledek je uložený.':'Výsledek je uložený jen v tomto zařízení a na server se pošle později.'),
+    h('div',{class:'row'},h('button',{class:'btn',onclick:()=>startLesson(l)},'Zopakovat'),h('button',{class:'btn primary',onclick:render},'Zpět na přehled'))
+  );
+}
+load();
+</script>
+</body>
+</html>
