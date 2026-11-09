@@ -1,0 +1,168 @@
+{
+ "id": "l002",
+ "day": 2,
+ "date": "2026-11-09",
+ "lang": "en",
+ "xp": 30,
+ "title": "Letiště: Level 1",
+ "hook": "Cesta do Japonska je jako hra o Mariovi: několik levelů za sebou. Dnes level 1, letiště.",
+ "intro": "Po přistání potkáš pasovou kontrolu, výdej zavazadel a celnici. Úředníci mluví jednoduše a otázky se opakují. Dnes se naučíš ty nejdůležitější věty. Slova z kartiček si můžeš nechat přečíst.",
+ "vocab": [
+  {
+   "t": "passport",
+   "r": "",
+   "c": "pas",
+   "lang": "en-US"
+  },
+  {
+   "t": "boarding pass",
+   "r": "",
+   "c": "palubní vstupenka",
+   "lang": "en-US"
+  },
+  {
+   "t": "luggage",
+   "r": "",
+   "c": "zavazadla",
+   "lang": "en-US"
+  },
+  {
+   "t": "gate",
+   "r": "",
+   "c": "nástupní brána",
+   "lang": "en-US"
+  },
+  {
+   "t": "customs",
+   "r": "",
+   "c": "celnice",
+   "lang": "en-US"
+  },
+  {
+   "t": "baggage claim",
+   "r": "",
+   "c": "výdej zavazadel",
+   "lang": "en-US"
+  },
+  {
+   "t": "holiday",
+   "r": "",
+   "c": "dovolená",
+   "lang": "en-US"
+  },
+  {
+   "t": "Excuse me",
+   "r": "",
+   "c": "promiňte",
+   "lang": "en-US"
+  }
+ ],
+ "exercises": [
+  {
+   "t": "match",
+   "q": "Spoj anglické slovo s českým.",
+   "p": [
+    [
+     "passport",
+     "pas"
+    ],
+    [
+     "luggage",
+     "zavazadla"
+    ],
+    [
+     "ticket",
+     "letenka"
+    ],
+    [
+     "gate",
+     "nástupní brána"
+    ],
+    [
+     "customs",
+     "celnice"
+    ]
+   ],
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Chceš se zeptat, kde je gate 12. Co řekneš?",
+   "o": [
+    "Excuse me, where is gate 12?",
+    "Excuse me, what is gate 12?",
+    "Sorry, who is gate 12?",
+    "Please, gate 12 is where?"
+   ],
+   "a": 0,
+   "e": "Where is …? je základní otázka na místo."
+  },
+  {
+   "t": "type",
+   "q": "Doplň: I ___ from the Czech Republic.",
+   "a": [
+    "am"
+   ],
+   "e": "I am = I'm."
+  },
+  {
+   "t": "choice",
+   "q": "Celník se zeptá: „What is the purpose of your visit?“ Nejlepší odpověď:",
+   "o": [
+    "I am here on holiday with my family.",
+    "I am fine, thank you.",
+    "Yes, please.",
+    "It is Monday."
+   ],
+   "a": 0,
+   "e": "Purpose of your visit = důvod návštěvy."
+  },
+  {
+   "t": "type",
+   "q": "Napiš anglicky: Jsem tady na dovolené.",
+   "a": [
+    "i am here on holiday",
+    "i am on holiday",
+    "i'm here on holiday",
+    "i'm on holiday",
+    "i am here on vacation",
+    "i'm here on vacation",
+    "i am on vacation",
+    "i'm on vacation"
+   ],
+   "e": "Holiday a vacation jsou obě správně."
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená „How long are you staying?“",
+   "o": [
+    "Jak dlouho zůstaneš?",
+    "Kdy odlétáš?",
+    "Kolik ti je let?",
+    "Kde bydlíš?"
+   ],
+   "a": 0,
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Doplň: We are staying for three ___.",
+   "a": [
+    "weeks"
+   ],
+   "e": "Množné číslo: week → weeks."
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená „baggage claim“?",
+   "o": [
+    "výdej zavazadel",
+    "odlety",
+    "pasová kontrola",
+    "směnárna"
+   ],
+   "a": 0,
+   "e": "Tam si po přistání vyzvedneš kufry."
+  }
+ ]
+}

@@ -1,0 +1,168 @@
+{
+ "id": "l006",
+ "day": 6,
+ "date": "2026-11-13",
+ "lang": "en",
+ "xp": 30,
+ "title": "Vlaky a cesta městem",
+ "hook": "Tokijské metro je jako velké bludiště, ale s pravidly je to jako redstone v Minecraftu: když je znáš, funguje to.",
+ "intro": "V Tokiju budeš jezdit hlavně vlakem a metrem. Dnes se naučíš zeptat se na cestu, na nástupiště a na jízdenku, a rozumět pokynům vlevo, vpravo, rovně.",
+ "vocab": [
+  {
+   "t": "platform",
+   "r": "",
+   "c": "nástupiště",
+   "lang": "en-US"
+  },
+  {
+   "t": "station",
+   "r": "",
+   "c": "stanice",
+   "lang": "en-US"
+  },
+  {
+   "t": "ticket",
+   "r": "",
+   "c": "jízdenka",
+   "lang": "en-US"
+  },
+  {
+   "t": "left",
+   "r": "",
+   "c": "vlevo",
+   "lang": "en-US"
+  },
+  {
+   "t": "right",
+   "r": "",
+   "c": "vpravo",
+   "lang": "en-US"
+  },
+  {
+   "t": "straight",
+   "r": "",
+   "c": "rovně",
+   "lang": "en-US"
+  },
+  {
+   "t": "delay",
+   "r": "",
+   "c": "zpoždění",
+   "lang": "en-US"
+  },
+  {
+   "t": "Which platform?",
+   "r": "",
+   "c": "Které nástupiště?",
+   "lang": "en-US"
+  }
+ ],
+ "exercises": [
+  {
+   "t": "match",
+   "q": "Spoj anglické slovo s českým.",
+   "p": [
+    [
+     "platform",
+     "nástupiště"
+    ],
+    [
+     "station",
+     "stanice"
+    ],
+    [
+     "ticket",
+     "jízdenka"
+    ],
+    [
+     "left",
+     "vlevo"
+    ],
+    [
+     "right",
+     "vpravo"
+    ],
+    [
+     "straight",
+     "rovně"
+    ]
+   ],
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená „Does this train go to Shinjuku?“",
+   "o": [
+    "Jede tenhle vlak do Šindžuku?",
+    "Kdy jede vlak do Šindžuku?",
+    "Kde je Šindžuku?",
+    "Kolik stojí Šindžuku?"
+   ],
+   "a": 0,
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Doplň: Turn ___ at the station. (vlevo)",
+   "a": [
+    "left"
+   ],
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Které je správně: „Jdi rovně a odboč vpravo.“",
+   "o": [
+    "Go straight and turn right.",
+    "Go right and turn straight.",
+    "Walk left and turn straight.",
+    "Turn straight go right."
+   ],
+   "a": 0,
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Napiš anglicky: Kde je stanice?",
+   "a": [
+    "where is the station",
+    "where is the train station",
+    "wheres the station",
+    "where is the station please"
+   ],
+   "e": "Where is …? se hodí všude."
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená „Which platform?“",
+   "o": [
+    "Které nástupiště?",
+    "Která stanice?",
+    "Jaký vlak?",
+    "Kolik stojí?"
+   ],
+   "a": 0,
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Vlak má „delay“. Co to je?",
+   "o": [
+    "zpoždění",
+    "odjezd",
+    "přestup",
+    "jízdenka"
+   ],
+   "a": 0,
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Doplň: One ticket to Kyoto, ___.",
+   "a": [
+    "please"
+   ],
+   "e": ""
+  }
+ ]
+}

@@ -1,0 +1,222 @@
+{
+ "id": "l003",
+ "day": 3,
+ "date": "2026-11-10",
+ "lang": "ja",
+ "xp": 30,
+ "title": "Řada K: かきくけこ",
+ "hook": "Magikarp se v japonštině jmenuje podle kapra „koi“. A dnes se naučíš napsat こい.",
+ "intro": "Včera jsi uměl a, i, u, e, o. Dnes přidáš stejné samohlásky s písmenem K před sebou: ka, ki, ku, ke, ko. Až je znáš, přečteš už i slova jako あか (aka, červená) nebo かお (kao, obličej).\n\nPozdrav こんにちは (konnichiwa) znamená „dobrý den“. Začíná znakem こ (ko), tedy dnešním písmenem.",
+ "vocab": [
+  {
+   "t": "か",
+   "r": "ka",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "き",
+   "r": "ki",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "く",
+   "r": "ku",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "け",
+   "r": "ke",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "こ",
+   "r": "ko",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "こい",
+   "r": "koi",
+   "c": "kapr",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "あか",
+   "r": "aka",
+   "c": "červená",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "かお",
+   "r": "kao",
+   "c": "obličej",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "いけ",
+   "r": "ike",
+   "c": "rybník",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "こんにちは",
+   "r": "konnichiwa",
+   "c": "dobrý den",
+   "lang": "ja-JP"
+  }
+ ],
+ "exercises": [
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "ka",
+    "ki",
+    "ku",
+    "ke"
+   ],
+   "a": 0,
+   "e": "か = ka.",
+   "big": "か"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "ko",
+    "ki",
+    "ke",
+    "ka"
+   ],
+   "a": 1,
+   "e": "き = ki.",
+   "big": "き"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "ke",
+    "ku",
+    "ko",
+    "ka"
+   ],
+   "a": 1,
+   "e": "く = ku.",
+   "big": "く"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "ko",
+    "ki",
+    "ke",
+    "ku"
+   ],
+   "a": 2,
+   "e": "け = ke.",
+   "big": "け"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "ka",
+    "ko",
+    "ku",
+    "ki"
+   ],
+   "a": 1,
+   "e": "こ = ko.",
+   "big": "こ"
+  },
+  {
+   "t": "match",
+   "q": "Spoj písmeno s hláskou.",
+   "p": [
+    [
+     "か",
+     "ka"
+    ],
+    [
+     "き",
+     "ki"
+    ],
+    [
+     "く",
+     "ku"
+    ],
+    [
+     "け",
+     "ke"
+    ],
+    [
+     "こ",
+     "ko"
+    ]
+   ],
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Přepiš do romaji. Znamená „kapr“.",
+   "a": [
+    "koi"
+   ],
+   "e": "Magikarp je podle koi.",
+   "big": "こい"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte slovo あか? Znamená „červená“.",
+   "o": [
+    "aka",
+    "ika",
+    "uka",
+    "eka"
+   ],
+   "a": 0,
+   "e": "あ (a) + か (ka).",
+   "big": "あか"
+  },
+  {
+   "t": "type",
+   "q": "Přepiš do romaji. Znamená „obličej“.",
+   "a": [
+    "kao"
+   ],
+   "e": "か (ka) + お (o).",
+   "big": "かお"
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená いけ (ike)?",
+   "o": [
+    "rybník",
+    "dům",
+    "obličej",
+    "modrá"
+   ],
+   "a": 0,
+   "e": "Kapři koi žijí v rybníku.",
+   "big": "いけ"
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená こんにちは (konnichiwa)?",
+   "o": [
+    "dobrý den",
+    "na shledanou",
+    "děkuji",
+    "dobrou noc"
+   ],
+   "a": 0,
+   "e": ""
+  }
+ ]
+}

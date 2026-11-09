@@ -1,0 +1,203 @@
+{
+ "id": "l001",
+ "day": 1,
+ "date": "2026-11-08",
+ "lang": "ja",
+ "xp": 30,
+ "title": "Pět samohlásek: あいうえお",
+ "hook": "V mangách typu Dragon Ball je nad složitými znaky malé hiragana (furigana). Když ho umíš číst, přečteš i je.",
+ "intro": "Hiragana je japonské písmo, kterým se píše většina základních slov. Každý znak je jedna slabika. Dnes pět nejjednodušších, a ty znáš z češtiny: a, i, u, e, o.\n\nSlova z dnešních znaků: あい (ai) = láska, いえ (ie) = dům, うえ (ue) = nahoře, あお (ao) = modrá. Modrý je třeba Sonic.",
+ "vocab": [
+  {
+   "t": "あ",
+   "r": "a",
+   "c": "jako v „auto“",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "い",
+   "r": "i",
+   "c": "jako v „iglú“",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "う",
+   "r": "u",
+   "c": "rty uvolněné",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "え",
+   "r": "e",
+   "c": "jako v „ten“",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "お",
+   "r": "o",
+   "c": "jako v „okno“",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "あい",
+   "r": "ai",
+   "c": "láska",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "いえ",
+   "r": "ie",
+   "c": "dům",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "うえ",
+   "r": "ue",
+   "c": "nahoře",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "あお",
+   "r": "ao",
+   "c": "modrá",
+   "lang": "ja-JP"
+  }
+ ],
+ "exercises": [
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "a",
+    "i",
+    "u",
+    "e"
+   ],
+   "a": 0,
+   "e": "あ = a.",
+   "big": "あ"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "o",
+    "i",
+    "e",
+    "u"
+   ],
+   "a": 1,
+   "e": "い = i.",
+   "big": "い"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "u",
+    "a",
+    "i",
+    "o"
+   ],
+   "a": 0,
+   "e": "う = u. Rty drž uvolněně.",
+   "big": "う"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "e",
+    "o",
+    "a",
+    "i"
+   ],
+   "a": 0,
+   "e": "え = e.",
+   "big": "え"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "u",
+    "o",
+    "a",
+    "e"
+   ],
+   "a": 1,
+   "e": "お = o.",
+   "big": "お"
+  },
+  {
+   "t": "match",
+   "q": "Spoj písmeno s hláskou.",
+   "p": [
+    [
+     "あ",
+     "a"
+    ],
+    [
+     "い",
+     "i"
+    ],
+    [
+     "う",
+     "u"
+    ],
+    [
+     "え",
+     "e"
+    ],
+    [
+     "お",
+     "o"
+    ]
+   ],
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Přepiš do romaji (latinkou).",
+   "a": [
+    "ai"
+   ],
+   "e": "あい (ai) = láska.",
+   "big": "あい"
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená slovo いえ (ie)?",
+   "o": [
+    "dům",
+    "láska",
+    "modrá",
+    "nahoře"
+   ],
+   "a": 0,
+   "e": "いえ = dům.",
+   "big": "いえ"
+  },
+  {
+   "t": "choice",
+   "q": "Které slovo je „ao“ (modrá)?",
+   "o": [
+    "あお",
+    "あい",
+    "いえ",
+    "うえ"
+   ],
+   "a": 0,
+   "e": "あ + お = ao."
+  },
+  {
+   "t": "type",
+   "q": "Přepiš do romaji. Znamená „nahoře“.",
+   "a": [
+    "ue"
+   ],
+   "e": "うえ = ue.",
+   "big": "うえ"
+  }
+ ]
+}

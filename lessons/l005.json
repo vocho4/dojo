@@ -1,0 +1,223 @@
+{
+ "id": "l005",
+ "day": 5,
+ "date": "2026-11-12",
+ "lang": "ja",
+ "xp": 30,
+ "title": "Řada S: さしすせそ",
+ "hook": "Naruto miluje ramen. Dnes se naučíš napsat すき (suki, mít rád) a すし (sushi).",
+ "intro": "Tři dny jsi uměl samohlásky a řadu K. Dnes přidáš řadu S: sa, shi, su, se, so. Pozor: し se čte shi, ne si.\n\nS těmito znaky přečteš すし (sushi), すき (suki, mít rád), そら (sora, obloha), あさ (asa, ráno) a うし (ushi, kráva). Ve slově すき je znak き z lekce 3.",
+ "vocab": [
+  {
+   "t": "さ",
+   "r": "sa",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "し",
+   "r": "shi",
+   "c": "ne si",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "す",
+   "r": "su",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "せ",
+   "r": "se",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "そ",
+   "r": "so",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "すし",
+   "r": "sushi",
+   "c": "",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "すき",
+   "r": "suki",
+   "c": "mít rád",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "そら",
+   "r": "sora",
+   "c": "obloha",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "あさ",
+   "r": "asa",
+   "c": "ráno",
+   "lang": "ja-JP"
+  },
+  {
+   "t": "うし",
+   "r": "ushi",
+   "c": "kráva",
+   "lang": "ja-JP"
+  }
+ ],
+ "exercises": [
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "sa",
+    "su",
+    "so",
+    "se"
+   ],
+   "a": 0,
+   "e": "さ = sa.",
+   "big": "さ"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "si",
+    "shi",
+    "su",
+    "sa"
+   ],
+   "a": 1,
+   "e": "し = shi.",
+   "big": "し"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "se",
+    "so",
+    "su",
+    "sa"
+   ],
+   "a": 2,
+   "e": "す = su.",
+   "big": "す"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "se",
+    "so",
+    "su",
+    "sa"
+   ],
+   "a": 0,
+   "e": "せ = se.",
+   "big": "せ"
+  },
+  {
+   "t": "choice",
+   "q": "Jak se čte tohle písmeno?",
+   "o": [
+    "sa",
+    "so",
+    "shi",
+    "se"
+   ],
+   "a": 1,
+   "e": "そ = so.",
+   "big": "そ"
+  },
+  {
+   "t": "match",
+   "q": "Spoj písmeno s hláskou.",
+   "p": [
+    [
+     "さ",
+     "sa"
+    ],
+    [
+     "し",
+     "shi"
+    ],
+    [
+     "す",
+     "su"
+    ],
+    [
+     "せ",
+     "se"
+    ],
+    [
+     "そ",
+     "so"
+    ]
+   ],
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Přepiš do romaji. Slavné japonské jídlo.",
+   "a": [
+    "sushi"
+   ],
+   "e": "す (su) + し (shi).",
+   "big": "すし"
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená すき (suki)?",
+   "o": [
+    "mít rád",
+    "nahoře",
+    "ráno",
+    "kráva"
+   ],
+   "a": 0,
+   "e": "す + き. Díky tomu přečteš: Naruto suki.",
+   "big": "すき"
+  },
+  {
+   "t": "type",
+   "q": "Přepiš do romaji. Znamená „obloha“.",
+   "a": [
+    "sora"
+   ],
+   "e": "",
+   "big": "そら"
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená あさ (asa)?",
+   "o": [
+    "ráno",
+    "kapr",
+    "dům",
+    "modrá"
+   ],
+   "a": 0,
+   "e": "",
+   "big": "あさ"
+  },
+  {
+   "t": "choice",
+   "q": "Co je うし (ushi)?",
+   "o": [
+    "kráva",
+    "obloha",
+    "ryba",
+    "dům"
+   ],
+   "a": 0,
+   "e": "",
+   "big": "うし"
+  }
+ ]
+}

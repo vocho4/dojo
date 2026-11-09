@@ -1,0 +1,167 @@
+{
+ "id": "l004",
+ "day": 4,
+ "date": "2026-11-11",
+ "lang": "en",
+ "xp": 30,
+ "title": "Restaurace a vegetariáni",
+ "hook": "Naruto by měl ramen na každý den. V Japonsku je ale v ramenu často vepřový nebo rybí vývar, takže se vyplatí umět se zeptat.",
+ "intro": "Skoro každá japonská polévka se vaří z rybího vývaru dashi. Táta je vegetarián, proto se hodí věta „Is there fish in this?“. Dnes se naučíš objednat, zeptat se na složení a zaplatit.",
+ "vocab": [
+  {
+   "t": "rice",
+   "r": "",
+   "c": "rýže",
+   "lang": "en-US"
+  },
+  {
+   "t": "water",
+   "r": "",
+   "c": "voda",
+   "lang": "en-US"
+  },
+  {
+   "t": "noodles",
+   "r": "",
+   "c": "nudle",
+   "lang": "en-US"
+  },
+  {
+   "t": "meat",
+   "r": "",
+   "c": "maso",
+   "lang": "en-US"
+  },
+  {
+   "t": "fish",
+   "r": "",
+   "c": "ryba",
+   "lang": "en-US"
+  },
+  {
+   "t": "vegetables",
+   "r": "",
+   "c": "zelenina",
+   "lang": "en-US"
+  },
+  {
+   "t": "vegetarian",
+   "r": "",
+   "c": "vegetarián",
+   "lang": "en-US"
+  },
+  {
+   "t": "the bill",
+   "r": "",
+   "c": "účet",
+   "lang": "en-US"
+  }
+ ],
+ "exercises": [
+  {
+   "t": "match",
+   "q": "Spoj anglické slovo s českým.",
+   "p": [
+    [
+     "rice",
+     "rýže"
+    ],
+    [
+     "water",
+     "voda"
+    ],
+    [
+     "noodles",
+     "nudle"
+    ],
+    [
+     "meat",
+     "maso"
+    ],
+    [
+     "fish",
+     "ryba"
+    ],
+    [
+     "vegetables",
+     "zelenina"
+    ]
+   ],
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Chceš objednat nudle. Jak to řekneš zdvořile?",
+   "o": [
+    "I would like noodles, please.",
+    "Give me noodles.",
+    "Noodles now.",
+    "I want noodles you."
+   ],
+   "a": 0,
+   "e": "I would like … je zdvořilé."
+  },
+  {
+   "t": "type",
+   "q": "Doplň: I would ___ a glass of water, please.",
+   "a": [
+    "like"
+   ],
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Chceš vědět, jestli je v jídle ryba. Co řekneš?",
+   "o": [
+    "Is there fish in this?",
+    "Is fish this in?",
+    "Are fish there?",
+    "There fish is?"
+   ],
+   "a": 0,
+   "e": "Rybí vývar dashi je v Japonsku skoro všude."
+  },
+  {
+   "t": "type",
+   "q": "Táta je vegetarián. Doplň, co řekne: I am ___. I don't eat meat or fish.",
+   "a": [
+    "vegetarian"
+   ],
+   "e": ""
+  },
+  {
+   "t": "choice",
+   "q": "Chceš zaplatit. Co řekneš?",
+   "o": [
+    "Could we have the bill, please?",
+    "We bill you now.",
+    "Bill, go here.",
+    "Pay is please?"
+   ],
+   "a": 0,
+   "e": ""
+  },
+  {
+   "t": "type",
+   "q": "Napiš anglicky: Voda, prosím.",
+   "a": [
+    "water please",
+    "a water please",
+    "some water please"
+   ],
+   "e": "Please říká zdvořilost."
+  },
+  {
+   "t": "choice",
+   "q": "Co znamená „No meat, no fish, please.“?",
+   "o": [
+    "Bez masa a bez ryby, prosím.",
+    "Maso a ryby, prosím.",
+    "Žádné prosím nechci.",
+    "Moc masa, prosím."
+   ],
+   "a": 0,
+   "e": ""
+  }
+ ]
+}
