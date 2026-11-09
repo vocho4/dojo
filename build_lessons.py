@@ -16,6 +16,12 @@ def ty(q, a, e="", big=None):
 def mt(q, p, e=""):
     return {"t": "match", "q": q, "p": p, "e": e}
 
+def q3(q, o):
+    return {"q": q, "o": o, "a": 0}
+
+def run(q, qs, end):
+    return {"t": "run", "q": q, "qs": qs, "end": end}
+
 def kana(t, r, c):
     return {"t": t, "r": r, "c": c, "lang": "ja-JP"}
 
@@ -47,18 +53,29 @@ L.append({
 L.append({
  "id": "l002", "day": 2, "date": "2026-11-09", "lang": "en", "xp": 30,
  "title": "Letiště: Level 1",
- "hook": "Cesta do Japonska je jako hra o Mariovi: několik levelů za sebou. Dnes level 1, letiště.",
- "intro": "Po přistání potkáš pasovou kontrolu, výdej zavazadel a celnici. Úředníci mluví jednoduše a otázky se opakují. Dnes se naučíš ty nejdůležitější věty. Slova z kartiček si můžeš nechat přečíst.",
- "vocab": [en("passport","pas"), en("boarding pass","palubní vstupenka"), en("luggage","zavazadla"), en("gate","nástupní brána"), en("customs","celnice"), en("baggage claim","výdej zavazadel"), en("holiday","dovolená"), en("Excuse me","promiňte")],
+ "hook": "Cesta do Japonska je jako hra: několik levelů za sebou. Dnes level 1, letiště. A ano, bude tam běhačka.",
+ "intro": "Na letišti potřebuješ pas, letenku a hlavně vědět, kde je záchod. Úředníci mluví jednoduše a otázky se opakují. Slova z kartiček si můžeš nechat přečíst.",
+ "vocab": [en("passport","pas"), en("boarding pass","letenka"), en("luggage","kufry, zavazadla"), en("baggage","zavazadla"), en("toilet","záchod"), en("Pokemon","pokémon"), en("Aura","aura"), en("holiday","dovolená"), en("Excuse me","promiňte")],
  "exercises": [
-  mt("Spoj anglické slovo s českým.", [["passport","pas"],["luggage","zavazadla"],["ticket","letenka"],["gate","nástupní brána"],["customs","celnice"]]),
-  ch("Chceš se zeptat, kde je gate 12. Co řekneš?", ["Excuse me, where is gate 12?","Excuse me, what is gate 12?","Sorry, who is gate 12?","Please, gate 12 is where?"], 0, "Where is …? je základní otázka na místo."),
+  run("Běž přes letiště! Klepnutím skáčeš. Po každých 5 překážkách přijde otázka.", [
+   q3("Kde je na letišti záchod?", ["Where is the toilet?","Where is the Pokemon?","Toilet is where me?"]),
+   q3("Za co dostaneš Aura plus?", ["Shit on toilet.","Shit at airport.","Shit in passport."]),
+   q3("„I forgot my passport!“ Co dostaneš?", ["Aura minus","Aura plus","Pokemon bonus"]),
+   q3("Těžký batoh?", ["Heavy luggage!","Big dick!","Slow kids!"]),
+   q3("Paní u přepážky chce vidět letenku. Co řekneš?", ["Here is my boarding pass.","Here is my Pikachu.","Here is my toilet."]),
+   q3("Tvůj kufr nepřijel. Co řekneš?", ["Where is my baggage?","Where is my baby?","Who is my baggage?"]),
+   q3("Úředník se ptá, proč jedeš do Japonska.", ["I am on holiday.","I am a Pokemon.","I am hungry for your toilet."]),
+   q3("Chceš se protlačit davem. Co řekneš?", ["Excuse me!","Excuse my bum!","Move, Pokemon!"]),
+   q3("V letadle chytíš v mobilu vzácného pokémona. Co dostaneš?", ["Aura plus","Aura minus","Toilet minus"]),
+   q3("Brácha je na záchodě už hodinu. Co zakřičíš?", ["Hurry up, please!","Happy holiday!","Nice passport!"]),
+  ], {"title": "Tohle asi vyhraješ!", "text": "Letiště zvládnuté, žádný pokémon tě nezastavil. Teď si zapamatuj tenhle znak. Tohle jsou v Japonsku záchody:", "sign": "トイレ", "sr": "toire", "more": "Někdy uvidíš i お手洗い (otearai). Znamená to taky záchod."}),
+  ch("Ztratil se ti kufr. Co řekneš?", ["Excuse me, where is my baggage?","Excuse me, what is my baggage?","Sorry, who is baggage?","Please, baggage is where?"], 0, "Where is …? je základní otázka na místo."),
   ty("Doplň: I ___ from the Czech Republic.", ["am"], "I am = I'm."),
   ch("Celník se zeptá: „What is the purpose of your visit?“ Nejlepší odpověď:", ["I am here on holiday with my family.","I am fine, thank you.","Yes, please.","It is Monday."], 0, "Purpose of your visit = důvod návštěvy."),
   ty("Napiš anglicky: Jsem tady na dovolené.", ["i am here on holiday","i am on holiday","i'm here on holiday","i'm on holiday","i am here on vacation","i'm here on vacation","i am on vacation","i'm on vacation"], "Holiday a vacation jsou obě správně."),
   ch("Co znamená „How long are you staying?“", ["Jak dlouho zůstaneš?","Kdy odlétáš?","Kolik ti je let?","Kde bydlíš?"], 0, ""),
   ty("Doplň: We are staying for three ___.", ["weeks"], "Množné číslo: week → weeks."),
-  ch("Co znamená „baggage claim“?", ["výdej zavazadel","odlety","pasová kontrola","směnárna"], 0, "Tam si po přistání vyzvedneš kufry."),
+  ch("Co znamená „boarding pass“?", ["letenka","pas","kufr","záchod"], 0, "Bez ní tě do letadla nepustí."),
  ]})
 
 L.append({
@@ -150,6 +167,8 @@ for l in L:
     for e in l["exercises"]:
         if e["t"] == "choice":
             assert 0 <= e["a"] < len(e["o"]), (l["id"], e["q"])
+        if e["t"] == "run":
+            assert len(e["qs"]) == 10 and all(len(x["o"]) == 3 for x in e["qs"]), l["id"]
         if e["t"] == "type":
             assert e["a"], (l["id"], e["q"])
 print("OK", len(files), "lekcí")

@@ -100,6 +100,25 @@ th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.0
 .kidbtn{display:flex;align-items:center;gap:16px;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:18px;text-align:left}
 .kidbtn .avatar{width:56px;height:56px;font-size:1.6rem}
 .kidbtn b{font-family:var(--f-display);font-size:1.5rem}
+/* Hra: celoobrazovková běhačka, na výšku, ovládání klepnutím. */
+.game{position:fixed;inset:0;z-index:10;background:#0e1230;display:flex;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.game .stage{position:relative;width:100%;max-width:520px;height:100%;overflow:hidden}
+.game canvas{display:block;width:100%;height:100%}
+.game .hud{position:absolute;top:max(10px,env(safe-area-inset-top,0px));left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+.game .hud>*{pointer-events:auto}
+.game .hbtn{background:rgba(255,255,255,.9);color:#141a35;border:0;border-radius:999px;padding:8px 14px;font-weight:700;min-height:40px}
+.game .hpill{background:rgba(20,26,53,.75);color:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-variant-numeric:tabular-nums}
+.game .hint{position:absolute;left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom,0px));text-align:center;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none;transition:opacity .4s}
+.game .ov{position:absolute;inset:0;background:rgba(10,14,40,.62);display:flex;align-items:flex-end;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+.game .ov .card{width:100%;color:var(--ink)}
+.game .ov .opts{grid-template-columns:1fr}
+.game .sign{display:flex;align-items:center;justify-content:center;gap:18px;background:var(--soft);border-radius:14px;padding:16px}
+.game .sign{border:0;color:var(--ink);font:inherit;cursor:pointer}
+.game .pict{display:flex}
+.game .sign b{font-family:"Zen Maru Gothic",var(--f-kana);font-size:clamp(2.6rem,14vw,4rem);font-weight:700;line-height:1}
+.game .sign span{display:block;color:var(--accent);font-weight:700;text-align:center}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -193,7 +212,7 @@ function render(){
 }
 function pickKid(){
   mount(
-    h('div',{class:'brand'},h('span',{class:'mark'},'道場'),'Dojo do Japonska'),
+    h('div',{class:'brand'},h("span",{class:"mark"},"あ"),'Dojo do Japonska'),
     h('h1',{},'Kdo dnes cvičí?'),
     h('div',{class:'kids'}, KIDS.map(k=>h('button',{class:'kidbtn',onclick:()=>{state.kid=k;LS.set('dojo.kid',k);render();}},
       h('span',{class:'avatar'},k[0]), h('b',{},k))))
@@ -201,7 +220,7 @@ function pickKid(){
 }
 function topbar(){
   return h('div',{class:'top'},
-    h('div',{class:'brand'},h('span',{class:'mark'},'道場'),'Dojo'),
+    h('div',{class:'brand'},h("span",{class:"mark"},"あ"),'Dojo'),
     h('div',{class:'chip'},h('span',{class:'avatar'},state.kid[0]),h('b',{},state.kid),
       h('button',{class:'link',onclick:()=>{state.kid=null;LS.set('dojo.kid',null);render();}},'změnit')));
 }
@@ -289,6 +308,7 @@ function exercise(){
     run.correct += ok?1:0; fb.className='fb '+(ok?'good':'bad'); fb.hidden=false;
     fb.replaceChildren(h('strong',{},ok?'Správně. ':'Špatně. '),msg||''); next.hidden=false; check.hidden=true; next.focus();
   };
+  if(ex.t==='run'){ return runUI(ex,(ok)=>{ run.correct+=ok; run.i++; run.i>=n?finish():exercise(); }); }
   let body;
   if(ex.t==='choice') body=choiceUI(ex,check,done);
   else if(ex.t==='type') body=typeUI(ex,check,done);
@@ -346,8 +366,183 @@ function matchUI(ex,check,done){
   const col=(arr,btns,set)=>h('div',{class:'col'},arr.map((o,k)=>{ const b=h('button',{class:'opt','aria-pressed':'false',onclick:()=>{set(o);refresh();test();}},o.t); btns.push(b); return b; }));
   return h('div',{class:'match'},col(L,bl,o=>{sl=o;}),col(R,br,o=>{sr=o;}));
 }
+/* ---------- hra: běhačka s otázkami ---------- */
+function runUI(ex, onDone){
+  const cv = h('canvas',{'aria-label':'Hra: běžící postava, klepnutím skáče'});
+  const ctx = cv.getContext('2d');
+  const qLbl = h('span',{class:'hpill'},'Otázka 1/'+ex.qs.length);
+  const cnt = h('span',{class:'hpill'},'○○○○○');
+  const hint = h('div',{class:'hint'},'Klepni kamkoli = skok');
+  const quit = ()=>{ stop(); render(); };
+  const stage = h('div',{class:'stage'}, cv,
+    h('div',{class:'hud'}, h('button',{class:'hbtn',onclick:quit},'Ukončit'), qLbl, cnt), hint);
+  const root = h('div',{class:'game'}, stage);
+  mount(root); document.body.style.overflow='hidden';
+
+  let W=0,H=0,G=0,S=0, alive=true, paused=false, last=0, raf=0;
+  let speed=0, jumpV=0, grav=0, dist=0;
+  const P = {y:0, vy:0, kick:0, air:false};
+  let obs=[], passed=0, qi=0, firstTry=0, bubble=null, jumped=false, nextGap=0;
+  const clouds = Array.from({length:5},()=>({x:Math.random(), y:.08+Math.random()*.3, s:.6+Math.random()*.8}));
+  function size(){
+    const r = stage.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, 2);
+    W=r.width; H=r.height; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0);
+    G = H*.74; S = Math.min(H*.085, W*.16);
+    speed = W*.42; grav = H*2.4; jumpV = Math.sqrt(2*grav*S*2.3);
+    if(!P.air) P.y=G;
+  }
+  size(); window.addEventListener('resize', size);
+  nextGap = W*.8;
+
+  function jump(){ if(paused||!alive) return; if(!P.air){ P.vy=-jumpV; P.air=true; } if(!jumped){ jumped=true; hint.style.opacity=0; } }
+  stage.addEventListener('pointerdown', e=>{ if(e.target.closest('button,.ov')) return; e.preventDefault(); jump(); });
+  const key = e=>{ if(e.code==='Space'||e.key==='ArrowUp'){ e.preventDefault(); jump(); } };
+  window.addEventListener('keydown', key);
+  function stop(){ alive=false; cancelAnimationFrame(raf); window.removeEventListener('resize',size); window.removeEventListener('keydown',key); document.body.style.overflow=''; }
+
+  function spawn(){
+    const monster = Math.random()<.45;
+    obs.push(monster ? {k:'m', x:W+S, w:S*.75, h:S*.6, ph:Math.random()*6}
+                     : {k:'b', x:W+S, w:S*.75, h:S*(.55+Math.random()*.3), c:['#f08a24','#1fa59a','#e0453a','#6c5ce7'][Math.floor(Math.random()*4)]});
+    nextGap = W*(.75+Math.random()*.55);
+  }
+  const px = ()=>W*.24;
+  function update(dt){
+    dist += speed*dt;
+    if(P.air){ P.vy += grav*dt; P.y += P.vy*dt; if(P.y>=G){ P.y=G; P.vy=0; P.air=false; } }
+    if(P.kick>0) P.kick-=dt;
+    const lastO = obs[obs.length-1];
+    if(!lastO || lastO.x < W+S-nextGap) spawn();
+    const pw=S*.5, pl=px()-pw/2, pr=px()+pw/2, pt=P.y-S*.95;
+    for(const o of obs){
+      if(o.fly){ o.x+=o.vx*dt; o.y+=o.vy*dt; o.vy+=grav*.6*dt; o.r+=dt*12; continue; }
+      o.x -= speed*dt;
+      const ol=o.x-o.w/2+o.w*.15, or=o.x+o.w/2-o.w*.15, ot=G-o.h*.85;
+      if(!o.hit && or>pl && ol<pr && P.y>ot){
+        o.hit=true;
+        if(o.k==='m'){ o.fly=true; o.y=G; o.vx=speed*1.6; o.vy=-H*1.1; o.r=0; P.kick=.35; bubble={t:'Padej vorle!', until:performance.now()+1300}; }
+        else { P.vy=-jumpV*.85; P.air=true; bubble={t:'Au!', until:performance.now()+700}; }
+      }
+      if(!o.done && (o.fly || o.x+o.w/2 < pl)){ o.done=true; passed++; cnt.textContent='●'.repeat(passed)+'○'.repeat(5-passed); if(passed>=5) setTimeout(ask,250); }
+    }
+    obs = obs.filter(o=>o.x>-S*2 && o.x<W*3 && (!o.fly || o.y<H+S*2));
+  }
+
+  /* kreslení: vlastní svět hry, barvy nezávislé na tématu */
+  function rr(x,y,w,hh,r){ ctx.beginPath(); ctx.roundRect?ctx.roundRect(x,y,w,hh,r):ctx.rect(x,y,w,hh); }
+  function draw(t){
+    const sky = ctx.createLinearGradient(0,0,0,G); sky.addColorStop(0,'#6fc3ff'); sky.addColorStop(1,'#d8f0ff');
+    ctx.fillStyle=sky; ctx.fillRect(0,0,W,G);
+    // mraky a letadlo
+    ctx.fillStyle='rgba(255,255,255,.9)';
+    for(const c of clouds){ const x=((c.x*W*1.4 - dist*.12*c.s) % (W*1.4) + W*1.4) % (W*1.4) - W*.2, y=c.y*H, r=S*.45*c.s;
+      ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.arc(x+r,y-r*.4,r*1.1,0,7); ctx.arc(x+r*2.1,y,r*.9,0,7); ctx.fill(); }
+    const plx = W - ((dist*.05) % (W+S*4)) ;
+    ctx.font = (S*.9)+'px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('✈️', plx, H*.16);
+    // vzdálená věž letiště
+    const tx = W - ((dist*.25) % (W*1.8)) + W*.3;
+    ctx.fillStyle='#9fc4dd'; ctx.fillRect(tx, G-S*3.2, S*.5, S*3.2); rr(tx-S*.35, G-S*3.8, S*1.2, S*.7, S*.15); ctx.fill();
+    // zem
+    ctx.fillStyle='#4caf50'; ctx.fillRect(0,G,W,S*.22);
+    ctx.fillStyle='#b5651d'; ctx.fillRect(0,G+S*.22,W,H-G);
+    ctx.strokeStyle='rgba(0,0,0,.18)'; ctx.lineWidth=2;
+    const bw=S*.9, off=dist%bw;
+    for(let row=0; G+S*.22+row*S*.45<H; row++){ const y=G+S*.22+row*S*.45; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      for(let x=-off+(row%2?bw/2:0); x<W; x+=bw){ ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y+S*.45); ctx.stroke(); } }
+    for(const o of obs) o.k==='m'?drawMonster(o,t):drawCase(o);
+    drawKid(t);
+    if(bubble && performance.now()<bubble.until) drawBubble(bubble.t);
+  }
+  function drawCase(o){
+    const x=o.x-o.w/2, y=G-o.h;
+    ctx.fillStyle=o.c; rr(x,y,o.w,o.h,S*.1); ctx.fill();
+    ctx.strokeStyle='#141a35'; ctx.lineWidth=3; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+o.w*.3,y); ctx.lineTo(x+o.w*.3,y-S*.14); ctx.lineTo(x+o.w*.7,y-S*.14); ctx.lineTo(x+o.w*.7,y); ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.85)'; ctx.fillRect(x+o.w*.15,y+o.h*.3,o.w*.3,o.h*.22);
+  }
+  function drawMonster(o,t){
+    ctx.save(); ctx.translate(o.x, o.fly?o.y-o.h/2:G-o.h/2); if(o.fly) ctx.rotate(o.r);
+    const w=o.w, hh=o.h, bob=o.fly?0:Math.sin(t/120+o.ph)*S*.04;
+    ctx.fillStyle='#8e44ad'; ctx.beginPath(); ctx.ellipse(0,bob,w/2,hh/2,0,Math.PI,0); ctx.lineTo(w/2,hh/2); ctx.lineTo(-w/2,hh/2); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#141a35'; ctx.lineWidth=3; ctx.stroke();
+    ctx.fillStyle='#8e44ad'; ctx.beginPath(); ctx.moveTo(-w*.3,-hh*.3+bob); ctx.lineTo(-w*.38,-hh*.75+bob); ctx.lineTo(-w*.15,-hh*.42+bob); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(w*.3,-hh*.3+bob); ctx.lineTo(w*.38,-hh*.75+bob); ctx.lineTo(w*.15,-hh*.42+bob); ctx.fill();
+    for(const sx of [-.17,.17]){ ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(w*sx,-hh*.05+bob,w*.13,0,7); ctx.fill();
+      ctx.fillStyle='#141a35'; ctx.beginPath(); ctx.arc(w*sx-w*.04,-hh*.03+bob,w*.06,0,7); ctx.fill(); }
+    if(o.fly){ ctx.strokeStyle='#141a35'; ctx.beginPath(); ctx.moveTo(-w*.12,hh*.25); ctx.lineTo(w*.12,hh*.18); ctx.stroke(); }
+    ctx.restore();
+  }
+  function drawKid(t){
+    const x=px(), y=P.y, s=S, run=P.air?0:Math.sin(t/70);
+    ctx.lineCap='round'; ctx.strokeStyle='#141a35'; ctx.lineWidth=s*.12;
+    // nohy
+    if(P.kick>0){ ctx.beginPath(); ctx.moveTo(x,y-s*.35); ctx.lineTo(x+s*.55,y-s*.3); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y-s*.35); ctx.lineTo(x-s*.1,y); ctx.stroke(); }
+    else if(P.air){ ctx.beginPath(); ctx.moveTo(x,y-s*.35); ctx.lineTo(x+s*.2,y-s*.12); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y-s*.35); ctx.lineTo(x-s*.18,y-s*.05); ctx.stroke(); }
+    else { ctx.beginPath(); ctx.moveTo(x,y-s*.35); ctx.lineTo(x+run*s*.2,y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y-s*.35); ctx.lineTo(x-run*s*.2,y); ctx.stroke(); }
+    // tělo v kimonu
+    ctx.fillStyle='#ffffff'; rr(x-s*.22,y-s*.75,s*.44,s*.45,s*.08); ctx.fill(); ctx.lineWidth=2.5; ctx.stroke();
+    ctx.fillStyle='#141a35'; ctx.fillRect(x-s*.22,y-s*.42,s*.44,s*.07);
+    ctx.strokeStyle='#141a35'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x-s*.1,y-s*.75); ctx.lineTo(x+s*.05,y-s*.45); ctx.stroke();
+    // ruce
+    ctx.lineWidth=s*.1; ctx.strokeStyle='#f2c79b'; const a=P.air?-1:run;
+    ctx.beginPath(); ctx.moveTo(x,y-s*.65); ctx.lineTo(x+s*.25,y-s*.55+a*s*.08); ctx.stroke();
+    // hlava
+    ctx.fillStyle='#f2c79b'; ctx.beginPath(); ctx.arc(x+s*.02,y-s*.92,s*.2,0,7); ctx.fill();
+    ctx.fillStyle='#2b1d14'; ctx.beginPath(); ctx.arc(x+s*.02,y-s*.97,s*.2,Math.PI,0); ctx.fill();
+    ctx.fillStyle='#e0453a'; ctx.fillRect(x-s*.18,y-s*.99,s*.4,s*.07);
+    ctx.strokeStyle='#e0453a'; ctx.lineWidth=s*.05; ctx.beginPath(); ctx.moveTo(x-s*.18,y-s*.96); ctx.lineTo(x-s*.38,y-s*.9+Math.sin(t/90)*s*.06); ctx.stroke();
+    ctx.fillStyle='#141a35'; ctx.beginPath(); ctx.arc(x+s*.12,y-s*.9,s*.03,0,7); ctx.fill();
+  }
+  function drawBubble(txt){
+    ctx.font='800 '+Math.round(S*.32)+'px "Bricolage Grotesque",system-ui,sans-serif';
+    const tw=ctx.measureText(txt).width, bw=tw+S*.5, bh=S*.62, bx=Math.min(px()+S*.1, W-bw-8), by=P.y-S*2.05;
+    ctx.fillStyle='#fff'; ctx.strokeStyle='#141a35'; ctx.lineWidth=3;
+    rr(bx,by,bw,bh,S*.2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px()+S*.2,by+bh-1); ctx.lineTo(px()+S*.05,by+bh+S*.3); ctx.lineTo(px()+S*.42,by+bh-1); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(px()+S*.2,by+bh); ctx.lineTo(px()+S*.05,by+bh+S*.3); ctx.lineTo(px()+S*.42,by+bh); ctx.stroke();
+    ctx.fillStyle='#141a35'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(txt,bx+bw/2,by+bh/2+1);
+  }
+  function loop(t){
+    if(!alive) return;
+    const dt = Math.min(.033, last? (t-last)/1000 : 0); last=t;
+    if(!paused) update(dt);
+    draw(t); raf=requestAnimationFrame(loop);
+  }
+  raf=requestAnimationFrame(loop);
+
+  /* otázky */
+  function ask(){
+    if(paused) return; paused=true;
+    const q=ex.qs[qi]; let first=true;
+    const opts=shuffle(q.o.map((t,i)=>({t,i})));
+    const btns=opts.map(o=>{ const b=h('button',{class:'opt',onclick:()=>{
+      if(o.i===q.a){ b.classList.add('good'); btns.forEach(x=>x.disabled=true); say(o.t,'en-US'); if(first) firstTry++;
+        setTimeout(()=>{ ov.remove(); qi++; passed=0; cnt.textContent='○○○○○';
+          if(qi>=ex.qs.length) return end(); qLbl.textContent='Otázka '+(qi+1)+'/'+ex.qs.length; last=0; paused=false; },700);
+      } else { first=false; b.classList.add('bad','shake'); b.disabled=true; }
+    }},o.t); return b; });
+    const ov=h('div',{class:'ov'},h('div',{class:'card'},
+      h('span',{class:'eyebrow'},'Otázka '+(qi+1)+' / '+ex.qs.length),
+      h('p',{class:'q'},q.q), h('div',{class:'opts'},btns)));
+    stage.append(ov);
+  }
+  function end(){
+    const e=ex.end||{};
+    const ov=h('div',{class:'ov'},h('div',{class:'card'},
+      h('span',{class:'eyebrow'},'Správně napoprvé: '+firstTry+' / '+ex.qs.length),
+      h('h1',{},e.title||'Hotovo!'),
+      e.text?h('p',{},e.text):null,
+      e.sign?h('button',{class:'sign',onclick:()=>say(e.sign,'ja-JP'),'aria-label':'Přehrát výslovnost'},
+        h('i',{class:'pict','aria-hidden':'true'}),
+        h('div',{},h('b',{},e.sign),h('span',{},e.sr||''))):null,
+      e.more?h('p',{class:'note'},e.more):null,
+      h('button',{class:'btn primary',onclick:()=>{ stop(); onDone(firstTry); }},'Pokračovat')));
+    stage.append(ov);
+    const pic=ov.querySelector('.pict'); if(pic) pic.innerHTML='<svg viewBox="0 0 64 64" width="56" height="56" fill="currentColor" style="color:var(--accent)"><circle cx="18" cy="12" r="6"/><path d="M11 22h14l-2 18h-3v18h-4V40h-3z"/><circle cx="46" cy="12" r="6"/><path d="M40 22h12l7 24h-6l-1 12h-10l-1-12h-6z"/><rect x="31" y="6" width="2" height="54"/></svg>';
+  }
+}
 async function finish(){
-  const l=run.l, total=l.exercises.length, correct=run.correct;
+  const l=run.l, total=l.exercises.reduce((t,e)=>t+(e.t==='run'?e.qs.length:1),0), correct=run.correct;
   const row = {kid:state.kid, lesson_id:l.id, score:correct, total, ts:new Date().toISOString()};
   let where='device';
   if(remote.on()){
