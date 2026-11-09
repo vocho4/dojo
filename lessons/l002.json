@@ -5,8 +5,8 @@
  "lang": "en",
  "xp": 30,
  "title": "Letiště: Level 1",
- "hook": "Cesta do Japonska je jako hra o Mariovi: několik levelů za sebou. Dnes level 1, letiště.",
- "intro": "Po přistání potkáš pasovou kontrolu, výdej zavazadel a celnici. Úředníci mluví jednoduše a otázky se opakují. Dnes se naučíš ty nejdůležitější věty. Slova z kartiček si můžeš nechat přečíst.",
+ "hook": "Cesta do Japonska je jako hra: několik levelů za sebou. Dnes level 1, letiště. A ano, bude tam běhačka.",
+ "intro": "Na letišti potřebuješ pas, letenku a hlavně vědět, kde je záchod. Úředníci mluví jednoduše a otázky se opakují. Slova z kartiček si můžeš nechat přečíst.",
  "vocab": [
   {
    "t": "passport",
@@ -17,31 +17,37 @@
   {
    "t": "boarding pass",
    "r": "",
-   "c": "palubní vstupenka",
+   "c": "letenka",
    "lang": "en-US"
   },
   {
    "t": "luggage",
    "r": "",
+   "c": "kufry, zavazadla",
+   "lang": "en-US"
+  },
+  {
+   "t": "baggage",
+   "r": "",
    "c": "zavazadla",
    "lang": "en-US"
   },
   {
-   "t": "gate",
+   "t": "toilet",
    "r": "",
-   "c": "nástupní brána",
+   "c": "záchod",
    "lang": "en-US"
   },
   {
-   "t": "customs",
+   "t": "Pokemon",
    "r": "",
-   "c": "celnice",
+   "c": "pokémon",
    "lang": "en-US"
   },
   {
-   "t": "baggage claim",
+   "t": "Aura",
    "r": "",
-   "c": "výdej zavazadel",
+   "c": "aura",
    "lang": "en-US"
   },
   {
@@ -59,40 +65,116 @@
  ],
  "exercises": [
   {
-   "t": "match",
-   "q": "Spoj anglické slovo s českým.",
-   "p": [
-    [
-     "passport",
-     "pas"
-    ],
-    [
-     "luggage",
-     "zavazadla"
-    ],
-    [
-     "ticket",
-     "letenka"
-    ],
-    [
-     "gate",
-     "nástupní brána"
-    ],
-    [
-     "customs",
-     "celnice"
-    ]
+   "t": "run",
+   "q": "Běž přes letiště! Klepnutím skáčeš. Po každých 5 překážkách přijde otázka.",
+   "qs": [
+    {
+     "q": "Kde je na letišti záchod?",
+     "o": [
+      "Where is the toilet?",
+      "Where is the Pokemon?",
+      "Toilet is where me?"
+     ],
+     "a": 0
+    },
+    {
+     "q": "Za co dostaneš Aura plus?",
+     "o": [
+      "Shit on toilet.",
+      "Shit at airport.",
+      "Shit in passport."
+     ],
+     "a": 0
+    },
+    {
+     "q": "„I forgot my passport!“ Co dostaneš?",
+     "o": [
+      "Aura minus",
+      "Aura plus",
+      "Pokemon bonus"
+     ],
+     "a": 0
+    },
+    {
+     "q": "Těžký batoh?",
+     "o": [
+      "Heavy luggage!",
+      "Big dick!",
+      "Slow kids!"
+     ],
+     "a": 0
+    },
+    {
+     "q": "Paní u přepážky chce vidět letenku. Co řekneš?",
+     "o": [
+      "Here is my boarding pass.",
+      "Here is my Pikachu.",
+      "Here is my toilet."
+     ],
+     "a": 0
+    },
+    {
+     "q": "Tvůj kufr nepřijel. Co řekneš?",
+     "o": [
+      "Where is my baggage?",
+      "Where is my baby?",
+      "Who is my baggage?"
+     ],
+     "a": 0
+    },
+    {
+     "q": "Úředník se ptá, proč jedeš do Japonska.",
+     "o": [
+      "I am on holiday.",
+      "I am a Pokemon.",
+      "I am hungry for your toilet."
+     ],
+     "a": 0
+    },
+    {
+     "q": "Chceš se protlačit davem. Co řekneš?",
+     "o": [
+      "Excuse me!",
+      "Excuse my bum!",
+      "Move, Pokemon!"
+     ],
+     "a": 0
+    },
+    {
+     "q": "V letadle chytíš v mobilu vzácného pokémona. Co dostaneš?",
+     "o": [
+      "Aura plus",
+      "Aura minus",
+      "Toilet minus"
+     ],
+     "a": 0
+    },
+    {
+     "q": "Brácha je na záchodě už hodinu. Co zakřičíš?",
+     "o": [
+      "Hurry up, please!",
+      "Happy holiday!",
+      "Nice passport!"
+     ],
+     "a": 0
+    }
    ],
-   "e": ""
+   "end": {
+    "title": "Tohle asi vyhraješ!",
+    "text": "Letiště zvládnuté, žádný pokémon tě nezastavil. Teď si zapamatuj tenhle znak. Tohle jsou v Japonsku záchody:",
+    "sign": "トイレ",
+    "sr": "toire",
+    "more": "Někdy uvidíš i お手洗い (otearai). Znamená to taky záchod."
+   }
   },
   {
    "t": "choice",
-   "q": "Chceš se zeptat, kde je gate 12. Co řekneš?",
+   "q": "Ztratil se ti kufr. Co řekneš?",
    "o": [
-    "Excuse me, where is gate 12?",
-    "Excuse me, what is gate 12?",
-    "Sorry, who is gate 12?",
-    "Please, gate 12 is where?"
+    "Excuse me, where is my baggage?",
+    "Excuse me, what is my baggage?",
+    "Sorry, who is baggage?",
+    "Please, baggage is where?"
    ],
    "a": 0,
    "e": "Where is …? je základní otázka na místo."
@@ -154,15 +236,15 @@
   },
   {
    "t": "choice",
-   "q": "Co znamená „baggage claim“?",
+   "q": "Co znamená „boarding pass“?",
    "o": [
-    "výdej zavazadel",
-    "odlety",
-    "pasová kontrola",
-    "směnárna"
+    "letenka",
+    "pas",
+    "kufr",
+    "záchod"
    ],
    "a": 0,
-   "e": "Tam si po přistání vyzvedneš kufry."
+   "e": "Bez ní tě do letadla nepustí."
   }
  ]
 }
